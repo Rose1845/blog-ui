@@ -11,55 +11,47 @@ const loginUser = async (e: Event) => {
     username: existingUser.value.username,
     password: existingUser.value.password,
   });
+  const data=await response.data;
+  existingUser.value=data;
+  console.log(existingUser.value);
 
 };
 const form = ref<HTMLFormElement | null>(null);
 </script>
 
 <template>
-  <div class="flex justify-center items-center h-screen">
-    <div class="max-w-md w-full mx-auto">
-      <h1 class="text-3xl font-bold mb-6 text-center">Register</h1>
-      <form
-        @submit.prevent="loginUser"
-        class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-        ref="form"
-      >
-        <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2" for="username">
-            Username
-          </label>
-          <input
-            v-model="existingUser.username"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="username"
-            type="text"
-            placeholder="Username"
-          />
+  
+     
+      <!-- component -->
+<div class="flex h-screen w-full items-center justify-center bg-gray-900 bg-cover bg-no-repeat" style="background-image:url('https://images.unsplash.com/photo-1684783028297-440439f2b010?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60')">
+  <div class="rounded-xl bg-gray-800 bg-opacity-50 px-16 py-10 shadow-lg backdrop-blur-md max-sm:px-8">
+    <div class="text-white">
+      <div class="mb-8 flex flex-col items-center">
+        <img src="https://www.logo.wine/a/logo/Instagram/Instagram-Glyph-Color-Logo.wine.svg" width="150" alt="" srcset="" />
+        <h1 class="text-4xl font-bold mt-4">Login</h1>
+        <span class="text-gray-300">Enter Login Details</span>
+      </div>
+      <form @submit.prevent="loginUser">
+        <div class="mb-4 text-lg">
+          <input v-model="existingUser.username" class="rounded-3xl border-none bg-yellow-400 bg-opacity-50 px-6 py-2 text-center text-inherit placeholder-slate-200 shadow-lg outline-none backdrop-blur-md" type="text" name="name" placeholder="id@email.com" />
+        </div>
+        <div class="mb-4 text-lg">
+          <input v-model="existingUser.password" class="rounded-3xl border-none bg-yellow-400 bg-opacity-50 px-6 py-2 text-center text-inherit placeholder-slate-200 shadow-lg outline-none backdrop-blur-md" type="Password" name="name" placeholder="*********" />
+        </div>
+        <div class="mt-8 flex justify-center text-lg text-black">
+          <button type="submit" class="rounded-3xl bg-yellow-400 bg-opacity-50 px-10 py-2 text-white shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-yellow-600">Login</button>
         </div>
 
-        <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2" for="password">
-            Password
-          </label>
-          <input
-            v-model="existingUser.password"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="password"
-            type="password"
-            placeholder="Password"
-          />
-        </div>
-
-        <div class="flex items-center justify-between">
-          <button
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-          >
-            login
-          </button>
-        </div>
       </form>
+      <div class="text-center">
+								<a
+									class="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
+									href="/register"
+								>
+									Don't have an account? Login!
+								</a>
+							</div>
     </div>
   </div>
+</div>
 </template>

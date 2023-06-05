@@ -12,62 +12,44 @@ const newPost = ref<PostType>({
   photo: "",
   categories: [],
 });
-const createPost = async (e:Event) => {
-    const target = e.target as HTMLFormElement;
-    const file =target.photo.files[0];
-    console.log(file);
-    
-    
-    try {
-      const response = await Api.post("/api/posts", {
-        title: newPost.value.title,
-        username: newPost.value.username,
-        desc: newPost.value.desc,
-        photo:file,
-        categories: newPost.value.categories,
-      },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+const updatePost = async () => {
+      try {
+        const response = await Api.put("/api/post", {
+          title: newPost.value.title,
+          username: newPost.value.username,
+          desc: newPost.value.desc,
+          photo: newPost.value.photo,
+          categories: newPost.value.categories,
+        });
+        const data = await response.data;
+        newPost.value = data;
+        console.log(newPost.value);
+      } catch (error) {
+        console.log(error);
       }
-      );
-      const data = await response.data;
-      newPost.value = data;
-      console.log(newPost.value);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const fileToUpload=ref<File|null>(null);
+    };
+const fileToUpload=ref<File|null>(null);
   const handleFileSelectChange=(e:Event)=>{
     const target = e.target as HTMLInputElement;
     const file =target.files?.[0];
     fileToUpload.value!=file;
-  }
-onMounted(async () => {
-  // create post
+}
 
- 
-  // get all posts
-  const fetchPosts = async () => {
-    try {
-      const response = await Api.get("/api/posts");
-      const data = await response.data;
-      allPosts.value = data;
-      console.log(allPosts.value);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  return Promise.all([fetchPosts()]);
-});
 const form = ref<HTMLFormElement | null>(null);
 </script>
 <template>
   <main class="max-w-7xl mx-auto">
   
-
+    <div>
+      <h2>Get All Posts</h2>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div v-for="post in allPosts" :key="post.id">
+          <h1>{{ post.title }}</h1>
+          <p>{{ post.desc }}</p>
+          <img :src="getFileUrl(post.photo as string)" alt="">
+        </div>
+      </div>
+    </div>
     <!-- form forpost -->
     <body>
 		<!-- Container -->
@@ -83,7 +65,7 @@ const form = ref<HTMLFormElement | null>(null);
 					<!-- Col -->
 					<div class="w-full lg:w-7/12 bg-white p-5 rounded-lg lg:rounded-l-none">
 						<h3 class="pt-4 text-2xl text-center">Create A Post</h3>
-						<form @submit.prevent="createPost" ref="form" class="px-8 pt-6 pb-8 mb-4 bg-white rounded">
+						<form @submit.prevent="updatePost" ref="form" class="px-8 pt-6 pb-8 mb-4 bg-white rounded">
 							<div class="mb-4 md:flex md:justify-between">
 								<div class="mb-4 md:mr-2 md:mb-0">
 									<label class="block mb-2 text-sm font-bold text-gray-700" for="firstName">
@@ -117,7 +99,6 @@ const form = ref<HTMLFormElement | null>(null);
 								<input
 									class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
 									id="photo"
-                  
 									type="file"
                   @change="handleFileSelectChange"
 									placeholder="photo"
@@ -129,6 +110,7 @@ const form = ref<HTMLFormElement | null>(null);
 										Categories
 									</label>
 									<input
+									v-model="newPost.categories"
 										class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
 										id="CATEGORIES"
 										type="CATEGORIES"
@@ -157,9 +139,9 @@ const form = ref<HTMLFormElement | null>(null);
 							<div class="mb-6 text-center">
 								<button
 									class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-									type="button"
+									type="submit"
 								>
-									Create A Post
+									Update Your Post
 								</button>
 							</div>
 							

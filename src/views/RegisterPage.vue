@@ -12,7 +12,7 @@ const newUser = ref<UserType>({
 });
 const registerUser = async (e: Event) => {
   const target = e.target as HTMLFormElement;
-  const file = target.profilePic.files[0];
+  const file = target.photo.files[0];
   console.log(file);
   try {
     const response = await Api.post(
@@ -104,12 +104,12 @@ const form = ref<HTMLFormElement | null>(null);
         </div>
 
         <div class="flex items-center justify-between">
-          <button
+          <a href="/login"
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
           >
             Register
-          </button>
+          </a>
         </div>
       </form>
     </div>

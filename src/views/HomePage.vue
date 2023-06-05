@@ -2,8 +2,8 @@
 import { onMounted, ref } from "vue";
 import { Api,getFileUrl } from "../api";
 import { PostType } from "../types";
+import FetchAllPost from "@/components/FetchAllPost.vue";
 const allPosts = ref<PostType[]>([]);
-const singlePost = ref<PostType[]>([]);
 const newPost = ref<PostType>({
   id: 0,
   title: "",
@@ -67,29 +67,16 @@ const form = ref<HTMLFormElement | null>(null);
 <template>
   <main class="max-w-7xl mx-auto">
   
-    <div>
-      <h2>Get All Posts</h2>
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <div v-for="post in allPosts" :key="post.id">
-          <h1>{{ post.title }}</h1>
-          <p>{{ post.desc }}</p>
-          <img :src="getFileUrl(post.photo as string)" alt="">
-        </div>
-      </div>
-    </div>
+    
     <!-- form forpost -->
     <div>
-        <h2>Create Post</h2>
-        <form @submit.prevent="createPost" ref="form">
-            <input type="text" v-model="newPost.title" placeholder="title" />
-            <input type="text" v-model="newPost.username" placeholder="username" />
-            <input type="text" v-model="newPost.desc" placeholder="desc" />
-            <input type="file" @change="handleFileSelectChange" name="photo" placeholder="photo" />
-            <input type="text" v-model="newPost.categories" placeholder="categories" />
-            <button type="submit">Create Post</button>
-        </form>
-     
-    </div>
+		<!-- Container -->
+		<div class="container mx-auto">
+			<div class="flex justify-center px-6 my-12">
+			<FetchAllPost/>
+			</div>
+		</div>
+	</div>
   </main>
 </template>
 <style scoped></style>

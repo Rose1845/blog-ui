@@ -1,5 +1,13 @@
 export type PostType = {
-  id: number;
+  id: number ;
+  title: string;
+  username: string;
+  desc: string;
+  photo: string | File;
+  categories: string[];
+};
+export type SinglePostType = {
+  id: number ;
   title: string;
   username: string;
   desc: string;

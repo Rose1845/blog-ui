@@ -23,6 +23,13 @@ const routes: RouteRecordRaw[] = [
     name: "login",
     component: () => import("@/views/LoginPage.vue"),
   },
+  {
+    path: "/:id",
+    name: "post",
+    component: () => import("@/components/SinglePost.vue"),
+    props: true,
+  }
+  
 ];
 
 const router = createRouter({
